@@ -1,0 +1,7 @@
+127.0.0.1:80
+gzip
+log ./access.log
+root ./
+ proxy / localhost:4000 {
+         transparent
+}
