@@ -1,12 +1,13 @@
 from os import remove
 from PIL import Image
 from MyQR import myqr
-from flask import session
-import zbarlight,base64,datetime,random
+from flask import redirect,make_response,request,session
+import zbarlight,datetime,random,time
 
 def cus(codes,pic_dir):
 	my_qr = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))+str(random.randint(0,100))+'.png'
-	session['dir']=my_qr
+	res = make_response(redirect('/result'))
+	res.set_cookie(key='dir',value=my_qr, expires=time.time()+6*60)
 	version, level, qr_name = myqr.run(
 	codes,
 	version=1,
@@ -16,13 +17,7 @@ def cus(codes,pic_dir):
 	contrast=1.0,
 	brightness=1.0,
 	save_name=my_qr,
-	save_dir='/tmp/QR/'
+	save_dir='/tmp/'
 	)
-	img_stream = ''
-	MyQR = open('/tmp/QR/'+my_qr,'rb')
-	img_stream = MyQR.read()
-	MyQR.close()
-	img_stream = str(base64.b64encode(img_stream))
-	img_stream = img_stream[2:(len(img_stream)-3)]
 	remove(pic_dir)
-	return img_stream
+	return res

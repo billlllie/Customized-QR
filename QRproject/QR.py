@@ -1,9 +1,6 @@
-from flask import Flask,render_template,request,send_file,redirect,url_for,session,abort
+from flask import Flask,render_template,request,send_file,redirect,url_for,make_response,Response
 
-
-UPLOAD_FOLDER = '/tmp/QR/'
-result = None
-my_qr = ''
+UPLOAD_FOLDER = '/tmp/'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -19,8 +16,8 @@ def upload():
 	from Pic import p2t
 	from io import StringIO
 	from werkzeug import secure_filename
-	import os
-	global result
+	from os import remove
+	import os,zbarlight,time
 	codes = request.form.get('inputurl')
 	qr = request.files.get('QR')
 	pic = request.files.get('Pic')
@@ -39,13 +36,30 @@ def upload():
 		picname = secure_filename(pic.filename)
 		qr.save((os.path.join(app.config['UPLOAD_FOLDER'], qrname)))
 		pic.save((os.path.join(app.config['UPLOAD_FOLDER'], picname)))
-		result = p2t(codes,qrname,picname)
-		return redirect('/result')
+		if qrb:
+			with open('/tmp/'+qrname,'rb') as img_file:
+				QR = Image.open(img_file)
+				QR.load()
+			codes_qr = str(zbarlight.scan_codes('qrcode',QR))
+			QR.close()
+			if codes_qr == 'None':
+				remove('/tmp/'+qrname)
+				return redirect('/error4')
+			else:
+				return p2t(codes,codes_qr,picname)
+		else:
+			return p2t(codes,qrname,picname)
 
 @app.route('/result')
 def result():
-	global result
-	img_stream = result
+	import base64
+	my_dir = '/tmp/'+request.cookies.get('dir')
+	img_stream = ''
+	MyQR = open(my_dir,'rb')
+	img_stream = MyQR.read()
+	MyQR.close()
+	img_stream = str(base64.b64encode(img_stream))
+	img_stream = img_stream[2:(len(img_stream)-3)]
 	return render_template('result.html',img_stream=img_stream)
 
 @app.route('/download',methods=['POST'])
@@ -53,15 +67,16 @@ def download():
 	from tempfile import NamedTemporaryFile
 	from shutil import copyfileobj
 	from os import remove
-	my_qr = session['dir']
+	my_qr = request.cookies.get('dir')
 	tempFileObj = NamedTemporaryFile(mode='w+b',suffix='png')
-	MyQR = open('/tmp/QR/'+my_qr,'rb')
+	MyQR = open('/tmp/'+my_qr,'rb')
 	copyfileobj(MyQR,tempFileObj)
 	MyQR.close()
-	remove('/tmp/QR/'+my_qr)
+	remove('/tmp/'+my_qr)
 	tempFileObj.seek(0,0)
-	response = send_file(tempFileObj, as_attachment=True, attachment_filename='MyQR.png')
-	return response
+	res = make_response(send_file(tempFileObj, as_attachment=True, attachment_filename='MyQR.png'))
+	res.set_cookie('dir', '', expires=0)
+	return send_file(tempFileObj, as_attachment=True, attachment_filename='MyQR.png')
 
 @app.route('/error1')
 def error1():
@@ -75,8 +90,11 @@ def error2():
 def error3():
 	return render_template('error3.html')
 
+@app.route('/error4')
+def error4():
+	return render_template('error4.html')
+
 if __name__ == '__main__':
-	app.debug = True
 	app.run()
 
 
