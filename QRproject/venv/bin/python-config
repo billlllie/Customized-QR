@@ -1,4 +1,4 @@
-#!/home/lzh/QRproject/venv/bin/python
+#!/var/www/Customized-QR/QRproject/venv/bin/python
 
 import sys
 import getopt
