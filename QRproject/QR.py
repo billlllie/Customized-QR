@@ -16,6 +16,7 @@ def upload():
 	from Pic import p2t
 	from io import StringIO
 	from werkzeug import secure_filename
+	from fname import check_name
 	from os import remove
 	import os,zbarlight,time
 	codes = request.form.get('inputurl')
@@ -32,8 +33,8 @@ def upload():
 	elif bool(codes) == False and qrb == False:
 		return redirect('/error3')
 	else:
-		qrname = secure_filename(qr.filename)
-		picname = secure_filename(pic.filename)
+		qrname = check_name(qr.filename)
+		picname = check_name(pic.filename)
 		qr.save((os.path.join(app.config['UPLOAD_FOLDER'], qrname)))
 		pic.save((os.path.join(app.config['UPLOAD_FOLDER'], picname)))
 		if qrb:
