@@ -42,8 +42,8 @@ def upload():
 				QR.load()
 			codes_qr = str(zbarlight.scan_codes('qrcode',QR))
 			QR.close()
+			remove('/tmp/'+qrname)
 			if codes_qr == 'None':
-				remove('/tmp/'+qrname)
 				return redirect('/error4')
 			else:
 				return p2t(codes,codes_qr,picname)
