@@ -5,7 +5,6 @@
 
 
 
-
 ## Content
 
 * [Customized-QR](#customized-qr)
