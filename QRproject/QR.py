@@ -33,11 +33,11 @@ def upload():
 	elif bool(codes) == False and qrb == False:
 		return redirect('/error3')
 	else:
-		qrname = check_name(qr.filename)
 		picname = check_name(pic.filename)
-		qr.save((os.path.join(app.config['UPLOAD_FOLDER'], qrname)))
 		pic.save((os.path.join(app.config['UPLOAD_FOLDER'], picname)))
 		if qrb:
+			qrname = check_name(qr.filename)
+			qr.save((os.path.join(app.config['UPLOAD_FOLDER'], qrname)))
 			with open('/tmp/'+qrname,'rb') as img_file:
 				QR = Image.open(img_file)
 				QR.load()
@@ -49,6 +49,7 @@ def upload():
 			else:
 				return p2t(codes,codes_qr,picname)
 		else:
+			qrname = False
 			return p2t(codes,qrname,picname)
 
 @app.route('/result')
