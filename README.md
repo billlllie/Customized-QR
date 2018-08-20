@@ -5,12 +5,21 @@ By the flask framework and guincorn server, the website can process the picture 
 ## Install
 You need to install python3, pip(or Setuptools) and [Zbarlight](https://github.com/Polyconseil/zbarlight) to make sure it works.
 ### To test or debug 
+
+#### On Debian ####
+
+```
+
+```
+
+
+
 #### (virtualenv is highly recommended):
 ```
-git clone https://github.com/lzhxwmr/Customized-QR.git
-cd Customized-QR/
-pip(3) install -r requirement.txt
-python3 QR.py
+$ git clone https://github.com/lzhxwmr/Customized-QR.git
+$ cd Customized-QR/
+$ pip(3) install -r requirement.txt
+$ python3 QR.py
 ```
 It works if you see this:
 ```
@@ -18,5 +27,7 @@ It works if you see this:
 ```
 
 ### Setup the website
-to be continued...
+If you want to deploy this project on your server, you should have these depedences installed:
+
+
 
