@@ -11,6 +11,7 @@ cd Customized-QR/
 pip(3) install -r requirement.txt
 python3 QR.py
 `
+
 It works if you see this:
 `* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)`
 
