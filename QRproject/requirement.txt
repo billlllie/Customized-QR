@@ -1,0 +1,13 @@
+click>=6.7
+Flask>=0.12.2
+gunicorn>=19.7.1
+imageio>=2.3.0
+itsdangerous>=0.24
+Jinja2>=2.10
+MarkupSafe>=1.0
+MyQR>=2.3.1
+numpy>=1.15.0
+Pillow>=5.2.0
+pypinyin>=0.33.0
+Werkzeug>=0.14.1
+zbarlight>=2.1
