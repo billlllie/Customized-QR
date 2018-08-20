@@ -1,5 +1,25 @@
 # Customized-QR
-[TOC]
+
+
+
+
+
+
+
+## Content
+
+* [Customized-QR](#customized-qr)
+   * [Contents](#contents)
+      * [Overview](#overview)
+         * [Web QR Code Generator](#web-qr-code-generator)
+      * [Install](#install)
+         * [To test or debug](#to-test-or-debug)
+            * [On Debian](#on-debian)
+         * [Setup the website](#setup-the-website)
+            * [On Debian](#on-debian-1)
+      * [License](#license)
+
+
 
 ## Overview
 
@@ -9,7 +29,7 @@ By the flask framework and guincorn server, the website can process the picture 
 You need to install python3, pip(or Setuptools) and [Zbarlight](https://github.com/Polyconseil/zbarlight) to make sure it works.
 ### To test or debug 
 
-#### On Debian ####
+#### On Debian
 
 ```
 $ sudo apt-get install python3 python3-pip libzbar0 libzbar-dev
