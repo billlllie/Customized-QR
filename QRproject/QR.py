@@ -4,7 +4,7 @@ UPLOAD_FOLDER = '/tmp/'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'   // generate a random key of yourself
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'   // generate a random key for yourself
 
 @app.route('/')
 def index():
